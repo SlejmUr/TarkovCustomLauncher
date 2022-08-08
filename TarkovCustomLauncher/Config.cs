@@ -4,6 +4,19 @@ namespace TarkovCustomLauncher
 {
     public class Config
     {
+        public class Server
+        {
+
+            [JsonProperty("backendUrl")]
+            public string BackendUrl { get; set; }
+
+            [JsonProperty("name")]
+            public string Name { get; set; }
+
+            [JsonProperty("server")]
+            public FromNet? server { get; set; }
+
+        }
         public class FromNet
         {
             [JsonProperty("ip")]
@@ -24,6 +37,7 @@ namespace TarkovCustomLauncher
             [JsonProperty("version")]
             public string Version { get; set; }
         }
+
 
         public class User
         {

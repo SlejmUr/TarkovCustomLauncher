@@ -28,9 +28,12 @@ namespace TarkovCustomLauncher
 
             var client = new HttpClient(clientHandler);
             string get;
-            if (!serverBox.Text.Contains("server/config/server"))
+
+            if (!serverBox.Text.EndsWith('/')) { serverBox.Text += "/"; }
+
+            if (!serverBox.Text.Contains("launcher/server/connect"))
             {
-                get = serverBox.Text + "server/config/server";
+                get = serverBox.Text + "launcher/server/connect";
             }
             else
             {
@@ -39,13 +42,9 @@ namespace TarkovCustomLauncher
             var xx = client.GetAsync(get).Result;
             var rsp = xx.Content.ReadAsByteArrayAsync().Result;
             var uncmp = ZlibStream.UncompressString(rsp);
-            var fromnet = JsonConvert.DeserializeObject<Config.FromNet>(uncmp);
-            string thingy = "IP: " + fromnet.Ip + "\nPort: "
-                + fromnet.Port + "\nName: "
-                + fromnet.Name + "\nVersion: "
-                + fromnet.Version + "\nWebsite: "
-                + fromnet.Website + "\nDiscord: "
-                + fromnet.Discord;
+            var fromnet = JsonConvert.DeserializeObject<Config.Server>(uncmp);
+            string thingy = "IP: " + fromnet.BackendUrl + "\nName: "
+                + fromnet.Name;
 
             serverLabel.Text = basic_inf + thingy;
         }
